@@ -1,5 +1,17 @@
 require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
+const http = require('http');
+const express = require('express'); // Для простого веб-сервера
+
+// Створення сервера
+const app = express();
+const server = http.createServer(app);
+
+// Веб-сервер для Heroku, щоб тримати додаток активним
+app.get('/', (req, res) => {
+  res.send('Telegram bot is running');
+});
+
 
 // Отримання токену та ID з .env
 const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
@@ -195,4 +207,9 @@ bot.on('callback_query', (query) => {
     userStates[chatId] = { stage: 'start' };
     bot.sendMessage(chatId, 'Будь ласка, надішліть фото, відео, GIF або текст для нового поста.');
   }
+});
+
+// Запуск сервера на порту, вказаному Heroku або 3000 для локальної розробки
+server.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });
