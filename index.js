@@ -167,7 +167,7 @@ bot.on('callback_query', (query) => {
   } else if (data.startsWith('caption_no')) {
     userStates[chatId].stage = 'waiting_for_username';
     userStates[chatId].submission.caption = null;
-    bot.sendMessage(chatId, 'Добре, тепер напишіть свій нікнейм (можна без @).');
+    bot.sendMessage(chatId, 'Добре, тепер напишіть як до вас звертатись');
   } else if (data.startsWith('accept')) {
     const userId = data.split('_')[1];
     const submission = userStates[userId]?.submission;
